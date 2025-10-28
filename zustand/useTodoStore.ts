@@ -1,6 +1,7 @@
 import { initialTasks } from "@/data/initialTask";
 import { Task, TypeFilter } from "@/generics/TodoGeneric";
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
 
 interface TodoState{
     tasks: Task[]
@@ -15,53 +16,58 @@ interface TodoState{
     onSubmitTaskHandler: (title: string) => void
 }
 
-export const useTodoStore = create<TodoState>((set,get) => ({
-    tasks: initialTasks,
-    currentFilter: 'All',
+export const useTodoStore = create<TodoState>()(
+    persist(
+        (set) => ({
+            tasks: initialTasks,
+            currentFilter: 'All',
 
-    onFilterChangeHandler: (filter) => set({ currentFilter: filter }),
+            onFilterChangeHandler: (filter) => set({ currentFilter: filter }),
 
-    onDeletedDoneTasksHandler: () => {
-        set((state) => ({
-            tasks: state.tasks.map(task =>
-                (task.isCompleted && !task.isDeleted) ? { ...task, isDeleted: true } : task)
-        }))
-    },
+            onDeletedDoneTasksHandler: () => {
+                set((state) => ({
+                    tasks: state.tasks.map(task =>
+                        (task.isCompleted && !task.isDeleted) ? { ...task, isDeleted: true } : task)
+                }))
+            },
 
-    onDeletedAllTasksHandler: () => {
-        set((state) => ({
-            tasks: state.tasks.map(task =>
-                !task.isDeleted ? { ...task, isDeleted: true } : task)
-        }))
-    },
+            onDeletedAllTasksHandler: () => {
+                set((state) => ({
+                    tasks: state.tasks.map(task =>
+                        !task.isDeleted ? { ...task, isDeleted: true } : task)
+                }))
+            },
 
-    onToggleCompletedHandler: (id) => {
-        set((state) => ({
-            tasks: state.tasks.map(task =>
-                task.id === id ? { ...task, isCompleted: !task.isCompleted } : task)
-        }))
-    },
+            onToggleCompletedHandler: (id) => {
+                set((state) => ({
+                    tasks: state.tasks.map(task =>
+                        task.id === id ? { ...task, isCompleted: !task.isCompleted } : task)
+                }))
+            },
 
-    onEditedTaskHandler: (id, title) => {
-        set((state) => ({
-            tasks: state.tasks.map(task =>
-                task.id === id ? { ...task, title: title } : task)
-        }))
-    },
+            onEditedTaskHandler: (id, title) => {
+                set((state) => ({
+                    tasks: state.tasks.map(task =>
+                        task.id === id ? { ...task, title: title } : task)
+                }))
+            },
 
-    onDeletedTaskHandler: (id) => {
-        set((state) => ({
-            tasks: state.tasks.map(task =>
-                task.id === id ? { ...task, isDeleted: true } : task)
-        }))
-    },
+            onDeletedTaskHandler: (id) => {
+                set((state) => ({
+                    tasks: state.tasks.map(task =>
+                        task.id === id ? { ...task, isDeleted: true } : task)
+                }))
+            },
 
-    onSubmitTaskHandler: (title) => {
-        set((state) => ({
-            tasks: [
-                ...state.tasks,
-                { id: state.tasks.length+1, title: title, isCompleted: false, isDeleted: false }
-            ]
-        }))
-    },
-}))
+            onSubmitTaskHandler: (title) => {
+                set((state) => ({
+                    tasks: [
+                        ...state.tasks,
+                        { id: state.tasks.length+1, title: title, isCompleted: false, isDeleted: false }
+                    ]
+                }))
+            },
+        }),
+        { name: "todo-storage", }
+    )
+)
