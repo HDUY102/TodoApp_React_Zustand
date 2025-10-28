@@ -1,12 +1,18 @@
-import React from 'react'
+import { useTodoStore } from "@/zustand/useTodoStore"
 
 const TodoFooter = () => {
-  return (
-    <div className='grid grid-rows-1 grid-cols-3'>
-        <button className='bg-red-500 hover:bg-red-400 p-2 hover:cursor-pointer'>Delete Done Task</button>
-        <button className='bg-red-500 hover:bg-red-400 p-2 col-start-3 hover:cursor-pointer'>Delete Done Task</button>
-    </div>
-  )
+    const onDeletedDoneTasksHandler = useTodoStore(state => state.onDeletedDoneTasksHandler)
+    const onDeletedAllTasksHandler = useTodoStore(state => state.onDeletedAllTasksHandler)
+    return (
+        <div className='grid grid-cols-[45%_10%_45%] m-5 text-white'>
+            <button onClick={onDeletedDoneTasksHandler} className="p-2 hover:bg-red-400 cursor-pointer bg-red-500">
+                Delete Done Tasks
+            </button>
+            <button onClick={onDeletedAllTasksHandler} className="col-start-3 p-2 hover:bg-red-400 cursor-pointer  bg-red-500">
+                Delete All Tasks
+            </button>
+        </div>
+    )
 }
 
 export default TodoFooter

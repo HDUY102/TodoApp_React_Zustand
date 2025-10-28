@@ -1,13 +1,19 @@
-import React from 'react'
+import { TaskFilter } from '@/generics/TodoGeneric'
+import { useTodoStore } from '@/zustand/useTodoStore'
 
-const TodoHeader = () => {
-  return (
-    <div className='flex justify-evenly'>
-       <button className="p-4 bg-blue-500 hover:bg-blue-400 hover:cursor-pointer">All Tasks</button>
-       <button className="p-4 bg-blue-500 hover:bg-blue-400 hover:cursor-pointer">Done Tasks</button>
-       <button className="p-4 bg-blue-500 hover:bg-blue-400 hover:cursor-pointer">Todo Tasks</button> 
-    </div>
-  )
+interface TodoHeaderProp{
+    filters: TaskFilter[]
+}
+
+const TodoHeader = ({filters}:TodoHeaderProp) => {
+    const onFilterChangeHandler = useTodoStore(state => state.onFilterChangeHandler)
+    return (
+        <div className='grid grid-rows-1 grid-cols-3 '>
+            {filters?.map((filter) => (
+                <button onClick={() => onFilterChangeHandler(filter.type)} key={filter.id} className="hover:cursor-pointer p-3 text-white m-3 items-center bg-blue-500">{filter.label}</button>
+            ))}
+        </div>
+    )
 }
 
 export default TodoHeader
