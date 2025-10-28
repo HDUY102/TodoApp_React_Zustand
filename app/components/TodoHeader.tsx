@@ -6,7 +6,7 @@ interface TodoHeaderProp{
 }
 
 const TodoHeader = ({filters}:TodoHeaderProp) => {
-    const onFilterChangeHandler = useTodoStore(state => state.onFilterChangeHandler)
+    const {onFilterChangeHandler} = useTodoStore()
     return (
         <div className='grid grid-rows-1 grid-cols-3 '>
             {filters?.map((filter) => (

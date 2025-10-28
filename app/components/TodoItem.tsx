@@ -4,9 +4,7 @@ import { useEffect, useState } from 'react'
 import { FaPencil, FaRegTrashCan } from 'react-icons/fa6'
 
 const TodoItem = ({task}:{ task: Task }) => {
-    const onToggleCompletedHandler = useTodoStore(state => state.onToggleCompletedHandler)
-    const onEditedTaskHandler = useTodoStore(state => state.onEditedTaskHandler)
-    const onDeletedTaskHandler = useTodoStore(state => state.onDeletedTaskHandler)
+    const {onToggleCompletedHandler, onEditedTaskHandler, onDeletedTaskHandler} = useTodoStore()
     const [isEditing, setIsEditing] = useState(false)
     const [editTask, setEditTask] = useState(task.title)
 

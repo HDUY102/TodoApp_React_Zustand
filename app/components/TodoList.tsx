@@ -2,8 +2,7 @@ import TodoItem from './TodoItem'
 import { useTodoStore } from '@/zustand/useTodoStore'
 
 const TodoList = () => {
-    const tasks = useTodoStore(state => state.tasks)
-    const currentFilter = useTodoStore(state => state.currentFilter)
+    const {tasks,currentFilter} = useTodoStore()
 
     // 👉 Tính toán filteredTasks ngay trong component, không dùng hàm trong store
     const currentFilteredTasks = tasks.filter(task => {

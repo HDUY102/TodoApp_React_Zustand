@@ -2,7 +2,7 @@ import { useTodoStore } from '@/zustand/useTodoStore'
 import React, { useRef, useState } from 'react'
 
 const TodoInput = () => {
-    const onSubmitTaskHandler = useTodoStore(state => state.onSubmitTaskHandler)
+    const {onSubmitTaskHandler} = useTodoStore()
     const [title, setTitle] = useState('')
     const inputRef = useRef(null)
 
