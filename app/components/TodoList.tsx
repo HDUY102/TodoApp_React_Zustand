@@ -4,7 +4,6 @@ import { useTodoStore } from '@/zustand/useTodoStore'
 const TodoList = () => {
     const {tasks,currentFilter} = useTodoStore()
 
-    // 👉 Tính toán filteredTasks ngay trong component, không dùng hàm trong store
     const currentFilteredTasks = tasks.filter(task => {
         if (task.isDeleted) return false
         if (currentFilter === 'Todo') return !task.isCompleted
